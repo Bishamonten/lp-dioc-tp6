@@ -30,23 +30,45 @@ class ArticleController extends Controller
     /**
      * @Route(path="/new", name="article_new")
      * @param $handler
+     * @param $request
+     * @return
      */
     public function newAction(Request $request, NewArticleHandler $handler)
     {
         $form = $this->createForm(ArticleType::class);
         $form->handleRequest($request);
         // Seul les auteurs doivent avoir access.
+        if ($form->isSubmitted() && $form->isValid()) {
+            $article = $form->getData();
+            $handler->handle($article);
+            return $this->redirectToRoute('homepage');
+        }
         return $this->render('Article/new.html.twig', ['form' => $form->createView()]);
 
     }
 
     /**
      * @Route(path="/update/{slug}", name="article_update")
-     * @param $handler
+     * @param $request
+     * @param $article
+     * @param $updateArticleHandler
+     * @return
      */
-    public function updateAction(UpdateArticleHandler $handler)
+    public function updateAction(Request $request,Article $article,UpdateArticleHandler $updateArticleHandler)
     {
         // Seul les auteurs doivent avoir access.
         // Seul l'auteur de l'article peut le modifier
+        if($this->getUser() == $article->getAuthor())
+        {
+            $form = $this->createForm(ArticleType::class, $article);
+            $form->handleRequest($request);
+            if($form->isValid() && $form->isSubmitted())
+            {
+                $article = $form->getData();
+                $updateArticleHandler->handle($article);
+            }
+            return $this->render('Article/update.html.twig', ['form' => $form->createView()]);
+        }
+        return $this->redirectToRoute('article_show', array('slug' => $article->getSlug()));
     }
 }
