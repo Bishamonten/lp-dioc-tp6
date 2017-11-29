@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+
 /**
  * @ORM\Entity
  */
@@ -100,7 +101,7 @@ class User implements UserInterface, \Serializable
     /**
      * @return mixed
      */
-    public function getisAuthor()
+    public function isAuthor()
     {
         return $this->isAuthor;
     }
@@ -135,6 +136,14 @@ class User implements UserInterface, \Serializable
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @param mixed $password
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
     }
 
     // Fixme

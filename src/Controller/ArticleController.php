@@ -12,6 +12,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Flex\Response;
+
 
 /**
  * @Route(path="/article")
@@ -27,16 +29,22 @@ class ArticleController extends Controller
 
     /**
      * @Route(path="/new", name="article_new")
+     * @param $handler
      */
-    public function newAction()
+    public function newAction(Request $request, NewArticleHandler $handler)
     {
+        $form = $this->createForm(ArticleType::class);
+        $form->handleRequest($request);
         // Seul les auteurs doivent avoir access.
+        return $this->render('Article/new.html.twig', ['form' => $form->createView()]);
+
     }
 
     /**
      * @Route(path="/update/{slug}", name="article_update")
+     * @param $handler
      */
-    public function updateAction()
+    public function updateAction(UpdateArticleHandler $handler)
     {
         // Seul les auteurs doivent avoir access.
         // Seul l'auteur de l'article peut le modifier

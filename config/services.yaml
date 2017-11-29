@@ -2,6 +2,7 @@
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: 'en'
+    last_ten_articles: '%env(LAST_TEN_ARTICLES)%'
 
 services:
     # default configuration for services in *this* file
@@ -27,3 +28,5 @@ services:
     App\Controller\:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
+
+

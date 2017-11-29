@@ -47,6 +47,14 @@ class ArticleStat
     private $user;
 
     /**
+     * ArticleStat constructor.
+     */
+    public function __construct()
+    {
+
+    }
+
+    /**
      * @return mixed
      */
     public function getAction()
@@ -133,6 +141,7 @@ class ArticleStat
     {
         return $this->id;
     }
+
 
 
 

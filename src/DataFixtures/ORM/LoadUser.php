@@ -17,6 +17,7 @@ class LoadUser extends Fixture
         $user->setFirstname('John');
         $user->setLastname('Doe');
         $user->setEmail('user@exemple.org');
+        $user->setIsAuthor(true);
 
         $password = $this->container->get('security.password_encoder')->encodePassword($user, self::USER_PASSWORD);
         $user->setPassword($password);
